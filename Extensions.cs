@@ -46,7 +46,7 @@ public static class Extensions
             func, key: key);
 
     public static void UseAvae(this IServiceCollection services,
-        bool isWasm = true,
+        Runtime runtime,
         Func<IServiceProvider, Task>? onCircuitProviderChanged = null,
         NotificationPosition position = NotificationPosition.BottomLeft,
         int maxDispayments = 5)
@@ -70,11 +70,8 @@ public static class Extensions
             };
         });
         services.AddSingleton<Func<IServiceProvider, Task>>(onCircuitProviderChanged ?? (_ => Task.CompletedTask));
-        services.AddSingleton<IManagerReload>(new ManagerReload(isWasm));
-        services.AddTransient<NavigationHistory>();
-        services.AddTransient<NavigationGate>();
-        services.AddTransient<NavigationLifecycle>();
-        services.AddTransient<Router>();
+        services.RegisterNavigation();
+        services.RegisterEnvironments(runtime);
         services.AddSingleton<Avae.Services.IDialogService, DialogService>();
         services.AddSingleton<IContentDialogService, ContentDialogService>();
         services.AddSingleton<ITaskDialogService, TaskDialogService>();

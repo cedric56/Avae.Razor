@@ -6,7 +6,7 @@
 @inherits LayoutComponentBase
 @implements IDisposable
 @inject IRequestedThemeService themeService
-@inject IManagerReload reload
+@inject IRuntime runtime
 @inject IMvvmManager mvvmmanager
 @inject NavigationManager manager
 @inject IServiceProvider provider
@@ -63,7 +63,7 @@
     private async Task OnNavClick(NavigableView item)
     {
         await mvvmmanager.OnNavigableChanged(item);        
-        manager.NavigateTo(item.Href, reload.Reload);
+        manager.NavigateTo(item.Href, runtime.Current == Runtime.BlazorServer);
         await InvokeAsync(StateHasChanged);
     }
 
