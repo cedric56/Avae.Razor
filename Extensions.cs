@@ -15,10 +15,11 @@ public static class Extensions
     this IServiceCollection services,
     ServiceLifetime viewModelLifetime = ServiceLifetime.Transient,
     ServiceLifetime viewLifetime = ServiceLifetime.Transient,
-    string? key = null)
+    object? viewKey = null,
+    object? viewModelKey = null)
     where TComponent : class where TViewModel : class
     => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel>(
-        (sp) => new ViewFor<TComponent, TViewModel>(), key: key);
+        (sp) => new ViewFor<TComponent, TViewModel>(), viewKey: viewKey, viewModelKey: viewModelKey);
 
     public static void RegisterViewFor<
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent,
@@ -27,10 +28,11 @@ public static class Extensions
     Func<IServiceProvider, ViewFor<TComponent, TViewModel>> func,
     ServiceLifetime viewModelLifetime = ServiceLifetime.Transient,
     ServiceLifetime viewLifetime = ServiceLifetime.Transient,
-    string? key = null)
+    object? viewKey = null,
+    object? viewModelKey = null)
     where TComponent : class where TViewModel : class
     => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel>(
-        func, key: key);
+        func, viewKey: viewKey, viewModelKey: viewModelKey);
 
     public static void RegisterViewFor<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent,
@@ -40,10 +42,11 @@ public static class Extensions
         Func<IServiceProvider, TArg1, ViewFor<TComponent, TViewModel>> func,
         ServiceLifetime viewModelLifetime = ServiceLifetime.Transient,
         ServiceLifetime viewLifetime = ServiceLifetime.Transient,
-        string? key = null)
+        object? viewKey = null,
+        object? viewModelKey = null)
         where TComponent : class where TViewModel : class
         => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel, TArg1>(
-            func, key: key);
+            func, viewKey: viewKey, viewModelKey: viewModelKey);
 
     public static void UseAvae(this IServiceCollection services,
         Runtime runtime,

@@ -63,13 +63,9 @@ public class ViewFor<
     /// <param name="parameters">
     /// Optional additional component parameters merged with the view-model entry.
     /// </param>
-    public ViewFor(IServiceProvider sp, NavigableContext? context = null, Dictionary<string, object>? parameters = null)
+    public ViewFor(Dictionary<string, object>? parameters = null)
     {
-        var viewModel = sp.GetViewModel<TViewModel>(context);
-        Parameters = new Dictionary<string, object>(parameters ?? [])
-        {
-            { nameof(AvaeComponentBase<TViewModel>.ViewModel), viewModel }
-        };
+        additionalParameters = parameters;
     }
 
     /// <summary>
@@ -85,12 +81,10 @@ public class ViewFor<
     /// <param name="context">The newly assigned view-model instance (may be null).</param>
     protected void OnContextChanged(object? context)
     {
-        // Do nothing if the context is missing or parameters were already provided
-        // (e.g. by the constructor overload).
-        if (context is null || Parameters is not null)
+        if (context is null)
             return;
 
-        Parameters = new Dictionary<string, object>()
+        Parameters = new Dictionary<string, object>(additionalParameters ?? [])
         {
             { nameof(AvaeComponentBase<TViewModel>.ViewModel), (TViewModel)context! }
         };

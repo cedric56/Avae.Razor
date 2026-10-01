@@ -30,4 +30,6 @@ public abstract class ViewFor
     /// (e.g. <c>ViewModel</c>, <c>ChildContent</c>, or arbitrary component parameters).
     /// </summary>
     public IDictionary<string, object>? Parameters { get; set; }
+
+    protected Dictionary<string, object>? additionalParameters = new();
 }

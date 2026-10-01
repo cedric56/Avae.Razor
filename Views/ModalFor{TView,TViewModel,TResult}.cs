@@ -51,13 +51,9 @@ public class ModalFor<
     /// <param name="parameters">
     /// Optional additional component parameters merged with the view-model entry.
     /// </param>
-    public ModalFor(IServiceProvider sp, NavigableContext? context = null, Dictionary<string, object>? parameters = null)
+    public ModalFor(Dictionary<string, object>? parameters = null)
     {
-        var viewModel = sp.GetViewModel<TViewModel>(context);
-        Parameters = new Dictionary<string, object>(parameters ?? [])
-        {
-            { nameof(AvaeComponentBase<TViewModel>.ViewModel), viewModel }
-        };
+        additionalParameters = parameters;
     }
 
     /// <summary>
