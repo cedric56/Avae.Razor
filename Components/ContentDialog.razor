@@ -65,8 +65,9 @@
     public required ContentDialogParams Parameters{ get; set; }
 
     private void Close()
-    {        
-        SetResult(ContentDialogResult.None,
+    {
+        SetResult(
+            ContentDialogResult.None,
             Parameters.CloseButtonCommand,
             Parameters.CloseButtonCommandParameter,
             Parameters.CloseButtonClick);
@@ -74,7 +75,8 @@
 
     private void Primary()
     {
-        SetResult(ContentDialogResult.Primary,
+        SetResult(
+            ContentDialogResult.Primary,
             Parameters.PrimaryButtonCommand,
             Parameters.PrimaryButtonCommandParameter,
             Parameters.PrimaryButtonClick);
@@ -82,31 +84,32 @@
 
     private void Secondary()
     {
-        SetResult(ContentDialogResult.Secondary,
+        SetResult(
+            ContentDialogResult.Secondary,
             Parameters.SecondaryButtonCommand,
             Parameters.SecondaryButtonCommandParameter,
             Parameters.SecondaryButtonClick);
     }
 
-    private void SetResult(ContentDialogResult result, ICommand? command = null, object? parameter = null, Action? click = null)
+    private void SetResult(
+        ContentDialogResult result,
+        ICommand? command = null,
+        object? parameter = null,
+        Action? click = null)
     {
         if (true == Parameters.Closing?.Invoke(result.ToString()))
             return;
 
         if (command != null)
         {
-            if (true == command.CanExecute(parameter))
+            if (command.CanExecute(parameter))
                 command.Execute(parameter);
-        }
-        else if (click != null)
-        {
-            click?.Invoke();
         }
         else
         {
-            Instance.Close(result);
+            click?.Invoke();
         }
 
-        Parameters.Closed?.Invoke();
+        Instance.Close(result);
     }
 }

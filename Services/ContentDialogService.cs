@@ -12,6 +12,7 @@ internal class ContentDialogService : IContentDialogService
         new MudBlazor.DialogParameters() { { nameof(ContentDialog.Parameters), @params } },
         new MudBlazor.DialogOptions() { BackdropClick = true });
         var result = await dialog.Result;
+        @params.Closed?.Invoke();
         return result?.Data is ContentDialogResult cdr ? cdr : ContentDialogResult.None;
     }
 }
