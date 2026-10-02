@@ -19,7 +19,7 @@ public static class Extensions
     object? viewModelKey = null)
     where TComponent : class where TViewModel : class
     => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel>(
-        (sp) => new ViewFor<TComponent, TViewModel>(), viewKey: viewKey, viewModelKey: viewModelKey);
+        (sp) => new ViewFor<TComponent, TViewModel>(), viewModelLifetime, viewLifetime, viewKey, viewModelKey);
 
     public static void RegisterViewFor<
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent,
@@ -32,7 +32,7 @@ public static class Extensions
     object? viewModelKey = null)
     where TComponent : class where TViewModel : class
     => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel>(
-        func, viewKey: viewKey, viewModelKey: viewModelKey);
+        func, viewModelLifetime, viewLifetime, viewKey, viewModelKey);
 
     public static void RegisterViewFor<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent,
@@ -46,7 +46,7 @@ public static class Extensions
         object? viewModelKey = null)
         where TComponent : class where TViewModel : class
         => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel, TArg1>(
-            func, viewKey: viewKey, viewModelKey: viewModelKey);
+            func, viewModelLifetime, viewLifetime, viewKey, viewModelKey);
 
     public static void UseAvae(this IServiceCollection services,
         Runtime runtime,
