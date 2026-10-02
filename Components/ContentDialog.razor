@@ -22,7 +22,7 @@
         @if (!string.IsNullOrWhiteSpace(Parameters.PrimaryButtonText))
         {
             <MudButton class="dialog-action"
-                    disabled="@Parameters.IsPrimaryButtonEnabled"
+                       disabled="@(!Parameters.IsPrimaryButtonEnabled)"
                        OnClick="Primary">
                 @Parameters.PrimaryButtonText
             </MudButton>
@@ -30,7 +30,7 @@
         @if (!string.IsNullOrWhiteSpace(Parameters.SecondaryButtonText))
         {
             <MudButton class="dialog-action"
-                    disabled="@Parameters.IsSecondaryButtonEnabled"
+                       disabled="@(!Parameters.IsSecondaryButtonEnabled)"
                        OnClick="Secondary">
                 @Parameters.SecondaryButtonText
             </MudButton>
