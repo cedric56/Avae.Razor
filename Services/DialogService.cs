@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Avae.Services;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using IDialogService = Avae.Services.IDialogService;
 
@@ -12,7 +13,7 @@ internal class DialogService : IDialogService
     {
         await MudDialogService.ShowMessageBoxAsync(
             title,
-            new MarkupString(ex.Message.Replace(Environment.NewLine, "<br/>")),
+             ex.Message,
             options: new DialogOptions
             {
                 BackdropClick = true,
@@ -24,7 +25,7 @@ internal class DialogService : IDialogService
     {
         return await MudDialogService.ShowMessageBoxAsync(
             title,
-            new MarkupString(message.Replace(Environment.NewLine, "<br/>")),
+            message,
             cancelText: "Abort",
             options: new DialogOptions
             {
@@ -37,7 +38,7 @@ internal class DialogService : IDialogService
     {
         await MudDialogService.ShowMessageBoxAsync(
             title,
-            new MarkupString(message.Replace(Environment.NewLine, "<br/>")),
+            message,
             options: new DialogOptions
             {
                 BackdropClick = true,
@@ -49,7 +50,7 @@ internal class DialogService : IDialogService
     {
         return await MudDialogService.ShowMessageBoxAsync(
             title,
-            new MarkupString(message.Replace(Environment.NewLine, "<br/>")),
+             message,
             cancelText: "Cancel",
             options: new DialogOptions
             {
@@ -62,7 +63,7 @@ internal class DialogService : IDialogService
     {
         var result = await MudDialogService.ShowMessageBoxAsync(
             title,
-            new MarkupString(message.Replace(Environment.NewLine, "<br/>")),
+             message,
             yesText: "Yes",
             noText: "No",
             cancelText: "Abort",
@@ -83,7 +84,7 @@ internal class DialogService : IDialogService
     {
         return await MudDialogService.ShowMessageBoxAsync(
             title,
-            new MarkupString(message.Replace(Environment.NewLine, "<br/>")),
+             message,
             yesText: "Yes",
             cancelText: "No",
             options: new DialogOptions
@@ -97,7 +98,7 @@ internal class DialogService : IDialogService
     {
         var result = await MudDialogService.ShowMessageBoxAsync(
             title,
-            new MarkupString(message.Replace(Environment.NewLine, "<br/>")),
+             message,
             yesText: "Yes",
             noText: "No",
             cancelText: "Cancel",
