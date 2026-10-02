@@ -9,6 +9,20 @@ namespace Avae.Razor;
 
 public static class Extensions
 {
+    public static void RegisterModalFor<
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent,
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel,
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TResult>(
+    this IServiceCollection services,
+    object? viewKey = null,
+    object? viewModelKey = null,
+    ServiceLifetime viewModelLifetime = ServiceLifetime.Scoped,
+    ServiceLifetime viewLifetime = ServiceLifetime.Scoped)
+    where TComponent : class where TViewModel : class, ICloseableViewModel<TResult>
+    => services.RegisterWithLifetime<ModalFor<TComponent, TViewModel, TResult>, TViewModel>(
+        (sp) => new ModalFor<TComponent, TViewModel, TResult>(sp.GetRequiredService<ModalService>()), viewModelLifetime, viewLifetime, viewKey, viewModelKey);
+
+
     public static void RegisterViewFor<
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent,
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel>(
