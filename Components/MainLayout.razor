@@ -58,8 +58,8 @@
 
     private async Task OnNavClick(NavigableView item)
     {
-        await mvvmmanager.OnNavigableChanged(item);        
-        manager.NavigateTo(item.Href, runtime.Current == Runtime.BlazorServer);
+        await mvvmmanager.OnNavigableChanged(item);
+        manager.NavigateTo(item.Href, false);// runtime.Current == Runtime.BlazorServer);
         await InvokeAsync(StateHasChanged);
     }
 
@@ -74,6 +74,7 @@
 
     async void CurrentViewChanged(object? sender, IViewFor? view)
     {
+        mvvmmanager.CurrentViewChanged -= CurrentViewChanged;
         await InvokeAsync(StateHasChanged);
     }
 
