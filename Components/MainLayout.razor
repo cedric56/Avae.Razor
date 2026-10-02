@@ -13,13 +13,9 @@
 @inject Func<IServiceProvider, Task> initialize
 @inject IJSRuntime js
 
-@* Required *@
 <MudThemeProvider IsDarkMode="Service.IsDarkMode" />
 <MudPopoverProvider />
-
-@* Needed for dialogs *@
 <MudDialogProvider BackdropClick="false" />
-@* Needed for snackbars *@
 <MudSnackbarProvider />
 
 <MudLayout>

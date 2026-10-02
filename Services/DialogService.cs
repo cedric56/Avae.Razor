@@ -1,14 +1,10 @@
-﻿using Avae.Services;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿using MudBlazor;
 using IDialogService = Avae.Services.IDialogService;
 
 namespace Avae.Razor;
 
-internal class DialogService : IDialogService
+internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialogService
 {
-    public static MudBlazor.IDialogService MudDialogService { get; set; } = default!;
-
     public async Task ShowErrorAsync(Exception ex, string title = "Error")
     {
         await MudDialogService.ShowMessageBoxAsync(

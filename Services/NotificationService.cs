@@ -4,10 +4,8 @@ using MudBlazor;
 
 namespace Avae.Razor;
 
-internal class NotificationService : INotificationService
+internal class NotificationService(MudBlazor.ISnackbar SnackbarService)    : INotificationService
 {
-    public static MudBlazor.ISnackbar SnackbarService { get; set; } = default!;
-
     public void Show(string title, string message, NotificationType type = NotificationType.Information, TimeSpan? expiration = null, Action? onClick = null, Action? onClose = null)
     {
         var snack = SnackbarService.Add(new MarkupString($"<h5>{title}</h5>{message}"), type switch

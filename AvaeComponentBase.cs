@@ -24,21 +24,6 @@ public partial class AvaeComponentBase<TViewModel> : ComponentBase
     where TViewModel : class
 {
     /// <summary>
-    /// MudBlazor snackbar service used by <see cref="NotificationService"/>
-    /// to display transient toasts.
-    /// </summary>
-    [Inject]
-    public required MudBlazor.ISnackbar Snackbar { get; set; }
-
-    /// <summary>
-    /// MudBlazor dialog service used by the Avae dialog / modal services
-    /// (<see cref="TaskDialogService"/>, <see cref="ContentDialogService"/>,
-    /// <see cref="DialogService"/>, <see cref="ModalService"/>).
-    /// </summary>
-    [Inject]
-    public required MudBlazor.IDialogService MudDialogService { get; set; }
-
-    /// <summary>
     /// Ambient service provider, available for resolving additional services
     /// from within the component or its view-model helpers.
     /// </summary>
@@ -54,21 +39,4 @@ public partial class AvaeComponentBase<TViewModel> : ComponentBase
     /// </remarks>
     [Parameter, EditorRequired]
     public required TViewModel ViewModel { get; set; }
-
-    /// <summary>
-    /// Called once when the component is first initialized.
-    /// Registers the injected MudBlazor services with the static Avae service
-    /// facades so that subsequent dialog / notification calls work correctly.
-    /// </summary>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        // Bridge MudBlazor services into the static Avae facades used by view-models.
-        TaskDialogService.MudDialogService = MudDialogService;
-        ContentDialogService.MudDialogService = MudDialogService;
-        NotificationService.SnackbarService = Snackbar;
-        DialogService.MudDialogService = MudDialogService;
-        ModalService.MudDialogService = MudDialogService;
-    }
 }

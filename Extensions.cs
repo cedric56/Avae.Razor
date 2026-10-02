@@ -12,11 +12,11 @@ public static class Extensions
     public static void RegisterViewFor<
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TComponent,
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel>(
-    this IServiceCollection services,
-    ServiceLifetime viewModelLifetime = ServiceLifetime.Transient,
-    ServiceLifetime viewLifetime = ServiceLifetime.Transient,
+    this IServiceCollection services,    
     object? viewKey = null,
-    object? viewModelKey = null)
+    object? viewModelKey = null,
+    ServiceLifetime viewModelLifetime = ServiceLifetime.Scoped,
+    ServiceLifetime viewLifetime = ServiceLifetime.Scoped)
     where TComponent : class where TViewModel : class
     => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel>(
         (sp) => new ViewFor<TComponent, TViewModel>(), viewModelLifetime, viewLifetime, viewKey, viewModelKey);
@@ -26,10 +26,10 @@ public static class Extensions
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel>(
     this IServiceCollection services,
     Func<IServiceProvider, ViewFor<TComponent, TViewModel>> func,
-    ServiceLifetime viewModelLifetime = ServiceLifetime.Transient,
-    ServiceLifetime viewLifetime = ServiceLifetime.Transient,
     object? viewKey = null,
-    object? viewModelKey = null)
+    object? viewModelKey = null,
+    ServiceLifetime viewModelLifetime = ServiceLifetime.Scoped,
+    ServiceLifetime viewLifetime = ServiceLifetime.Scoped)
     where TComponent : class where TViewModel : class
     => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel>(
         func, viewModelLifetime, viewLifetime, viewKey, viewModelKey);
@@ -40,10 +40,10 @@ public static class Extensions
         TArg1>(
         this IServiceCollection services,
         Func<IServiceProvider, TArg1, ViewFor<TComponent, TViewModel>> func,
-        ServiceLifetime viewModelLifetime = ServiceLifetime.Transient,
-        ServiceLifetime viewLifetime = ServiceLifetime.Transient,
         object? viewKey = null,
-        object? viewModelKey = null)
+        object? viewModelKey = null,
+        ServiceLifetime viewModelLifetime = ServiceLifetime.Scoped,
+        ServiceLifetime viewLifetime = ServiceLifetime.Scoped)
         where TComponent : class where TViewModel : class
         => services.RegisterWithLifetime<ViewFor<TComponent, TViewModel>, TViewModel, TArg1>(
             func, viewModelLifetime, viewLifetime, viewKey, viewModelKey);
@@ -75,10 +75,11 @@ public static class Extensions
         services.AddSingleton<Func<IServiceProvider, Task>>(onCircuitProviderChanged ?? (_ => Task.CompletedTask));
         services.RegisterNavigation();
         services.RegisterEnvironments(runtime);
-        services.AddSingleton<Avae.Services.IDialogService, DialogService>();
-        services.AddSingleton<IContentDialogService, ContentDialogService>();
-        services.AddSingleton<ITaskDialogService, TaskDialogService>();
-        services.AddSingleton<INotificationService, NotificationService>();
-        services.AddSingleton<IRequestedThemeService, RequestThemeService>();
+        services.AddScoped<IRequestedThemeService, RequestThemeService>();
+        services.AddScoped<Avae.Services.IDialogService, DialogService>();
+        services.AddScoped<IContentDialogService, ContentDialogService>();
+        services.AddScoped<ITaskDialogService, TaskDialogService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<ModalService>();
     }
 }

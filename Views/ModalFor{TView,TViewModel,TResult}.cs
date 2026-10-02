@@ -31,12 +31,15 @@ public class ModalFor<
     ViewFor<TView, TViewModel>, IViewFor, IModalFor<TViewModel, TResult>
     where TViewModel : class, ICloseableViewModel<TResult>
 {
+    ModalService _modalService;
+
     /// <summary>
     /// Creates an empty modal descriptor. The view-model must be assigned later
     /// via <see cref="ViewFor{TView, TViewModel}.Context"/> or by supplying parameters manually.
     /// </summary>
-    public ModalFor()
+    public ModalFor(ModalService modalService)
     {
+        _modalService = modalService;
     }
 
     /// <summary>
@@ -51,8 +54,9 @@ public class ModalFor<
     /// <param name="parameters">
     /// Optional additional component parameters merged with the view-model entry.
     /// </param>
-    public ModalFor(Dictionary<string, object>? parameters = null)
+    public ModalFor(ModalService modalService,Dictionary<string, object>? parameters = null)
     {
+        _modalService = modalService;
         additionalParameters = parameters;
     }
 
@@ -71,6 +75,6 @@ public class ModalFor<
     /// </remarks>
     public Task<TResult?> ShowModalAsync()
     {
-        return ModalService.ShowModalAsync<TViewModel, TResult>(this, (TViewModel)Context!, null);
+        return _modalService.ShowModalAsync<TViewModel, TResult>(this, (TViewModel)Context!, null);
     }
 }

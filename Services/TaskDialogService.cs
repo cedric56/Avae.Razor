@@ -3,9 +3,8 @@ using Avae.Services;
 
 namespace Avae.Razor;
 
-internal class TaskDialogService : ITaskDialogService
+internal class TaskDialogService(MudBlazor.IDialogService MudDialogService) : ITaskDialogService
 {
-    public static MudBlazor.IDialogService MudDialogService { get; set; } = default!;
     public async Task<TaskDialogStandardResult> ShowAsync(TaskDialogParams @params, params TaskDialogStandardResult[] results)
     {
         var dialog = await MudDialogService.ShowAsync<TaskDialog>(@params.Title,

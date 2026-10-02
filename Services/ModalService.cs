@@ -3,11 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Avae.Razor;
 
-internal static class ModalService
+public class ModalService(MudBlazor.IDialogService MudDialogService)
 {
-    public static MudBlazor.IDialogService MudDialogService { get; set; } = default!;
-
-    public static async Task<TResult?> ShowModalAsync<
+    public async Task<TResult?> ShowModalAsync<
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel, 
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TResult>(
         ViewFor view, TViewModel viewModel, NavigableContext? context)
