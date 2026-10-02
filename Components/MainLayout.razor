@@ -72,18 +72,12 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        mvvmmanager.CurrentViewChanged += CurrentViewChanged;
         Service.RequestedThemeChanged += ThemeChanged;
     }
 
-    protected async override Task OnInitializedAsync()
+    async void CurrentViewChanged(object? sender, IViewFor? view)
     {
-        await Task.Run(async () =>
-        {
-            while (mvvmmanager.CurrentView == null)
-            {
-                await Task.Delay(100);
-            }
-        });
         await InvokeAsync(StateHasChanged);
     }
 
@@ -117,6 +111,7 @@
 
     public void Dispose()
     {
+        mvvmmanager.CurrentViewChanged -= CurrentViewChanged;
         Service.RequestedThemeChanged -= ThemeChanged;
     }
 } 
