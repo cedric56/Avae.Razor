@@ -1,3 +1,7 @@
+> [!CAUTION]
+> **`Avae.Razor` is not ready for production.**
+>
+
 # Avae.Razor
 
 A small Razor/Blazor UI adapter for the Avae services and view-model layers.
