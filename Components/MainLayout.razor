@@ -60,7 +60,7 @@
     {
         await mvvmmanager.OnNavigableChanged(item);
         manager.NavigateTo(item.Href, false);// runtime.Current == Runtime.BlazorServer);
-        await InvokeAsync(StateHasChanged);
+        //await InvokeAsync(StateHasChanged);
     }
 
     private RequestThemeService Service => ((RequestThemeService)themeService);
