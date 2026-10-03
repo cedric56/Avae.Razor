@@ -123,21 +123,6 @@ dotnet build Avae.Razor.slnx
 
 There is currently no test project in this repository. The dialog lifecycle, Blazor Server service lifetime, and component initialization paths are therefore worth covering with automated tests.
 
-## Known issues found during review
-
-The initial code review identified several issues worth tracking:
-
-- UI services use static MudBlazor service references while their Avae registrations are singletons; this can leak circuit-specific UI state between Blazor Server circuits.
-- `RequestThemeService` is registered as a singleton even though its theme state is user/circuit-specific.
-- Content-dialog command/click paths invoke `Closed` without actually closing the MudBlazor dialog.
-- Content-dialog primary/secondary enabled flags are passed directly to MudBlazor's `Disabled` parameter, reversing the intended meaning.
-- `AvaeForm` and `MainLayout` poll forever when their initial view never becomes available.
-- `RegisterViewFor` exposes lifetime parameters but does not forward them to the underlying registration.
-- Validation errors are cast directly to `string`, which can throw for non-string error objects.
-- Notification and error messages are rendered as `MarkupString`, so untrusted text can become HTML.
-
-See the repository issues for the individual findings and suggested fixes.
-
 ## License
 
 See [LICENSE](LICENSE).
