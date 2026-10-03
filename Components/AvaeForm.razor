@@ -22,7 +22,7 @@
         @if (ViewModel.CurrentView is ViewFor viewFor)
         {
             <div class="form-body @viewFor.Class">
-                <DynamicComponent Type="@viewFor.Type" Parameters="@viewFor.Parameters" />
+                @viewFor.Content
             </div>
         }
         <div class="form-footer">@Buttons</div>
@@ -42,16 +42,14 @@
 
     [Parameter]
     public required NavigableViewModelBase ViewModel { get; set; }
-
-    private bool isDone = false;
-
+    
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
 
-        if(!isDone)
+        if (firstRender)
         {
-            isDone = true;
+            ViewModel.CurrentViewChanged -= OnViewChanged;
             ViewModel.CurrentViewChanged += OnViewChanged;
         }
     }

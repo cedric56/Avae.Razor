@@ -37,10 +37,11 @@
     <MudMainContent>
         @if(mvvmmanager.CurrentView is ViewFor viewFor)
         {
-            <DynamicComponent              
+            @* <DynamicComponent              
                 Type="@viewFor.Type" 
                 Parameters="@viewFor.Parameters"
-                />
+                /> *@
+            @viewFor.Content
         }
     </MudMainContent>
 </MudLayout>

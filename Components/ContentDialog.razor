@@ -2,8 +2,7 @@
 @using Avae.Razor
 @using Avae.Services
 @using MudBlazor
-@inject IRequestedThemeService themeService
-<MudDialog Class="@($"wui-dialog {(Service.IsDarkMode ? "mud-theme-dark" : "")}")" >
+<MudDialog>
     <TitleContent>
         @if (!string.IsNullOrWhiteSpace(Parameters.Title))
         {
@@ -13,7 +12,7 @@
     <DialogContent>
         @if (Parameters.Content is ViewFor viewFor)
         {
-            <DynamicComponent Type="@viewFor.Type" Parameters="@viewFor.Parameters" />
+            @viewFor.Content
         }
     </DialogContent>
     <DialogActions>
@@ -42,7 +41,6 @@
     </DialogActions>
 </MudDialog>
 @code {
-    private RequestThemeService Service => ((RequestThemeService)themeService);
 
     protected override void OnAfterRender(bool firstRender)
     {

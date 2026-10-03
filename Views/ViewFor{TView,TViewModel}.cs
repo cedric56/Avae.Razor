@@ -1,4 +1,5 @@
 ﻿using Avae.ViewModels;
+using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Avae.Razor;
@@ -21,7 +22,7 @@ namespace Avae.Razor;
 public class ViewFor<
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]TView,
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel> : ViewFor, IViewFor
-    where TViewModel : class
+    where TViewModel : class where TView : AvaeComponentBase<TViewModel>
 {
     private object? _context;
 
@@ -89,4 +90,22 @@ public class ViewFor<
             { nameof(AvaeComponentBase<TViewModel>.ViewModel), (TViewModel)context! }
         };
     }
+
+    public override RenderFragment Content => builder =>
+    {
+        builder.OpenComponent<TView>(0);
+
+        if (Parameters is not null)
+        {
+            foreach (var parameter in Parameters)
+            {
+                builder.AddAttribute(
+                    1,
+                    parameter.Key,
+                    parameter.Value);
+            }
+        }
+
+        builder.CloseComponent();
+    };
 }

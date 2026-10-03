@@ -29,7 +29,7 @@ public class ModalFor<
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel, 
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TResult> :
     ViewFor<TView, TViewModel>, IViewFor, IModalFor<TViewModel, TResult>
-    where TViewModel : class, ICloseableViewModel<TResult>
+    where TViewModel : class, ICloseableViewModel<TResult> where TView : AvaeComponentBase<TViewModel>
 {
     ModalService _modalService;
 

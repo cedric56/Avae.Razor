@@ -1,7 +1,6 @@
 ﻿@using Avae.Services
 @using MudBlazor
-@inject IRequestedThemeService themeService
-<MudDialog Class="@($"wui-dialog {(Service.IsDarkMode ? "mud-theme-dark" : "")}")">
+<MudDialog>
     <TitleContent>
         @if (!string.IsNullOrWhiteSpace(Parameters.Title))
         {
@@ -11,12 +10,10 @@
 
     <DialogContent>
         <div class="dialog-header-row">
-            @if (Parameters.IconSource is ViewFor viewFor)
+            @if (Parameters.IconSource is ViewFor icon)
             {
                 <div class="dialog-header-icon">
-                    <DynamicComponent
-                        Type="@viewFor.Type" 
-                        Parameters="@viewFor.Parameters" />
+                    @icon.Content
                 </div>
             }
             @if (!string.IsNullOrWhiteSpace(Parameters.Header))
@@ -28,9 +25,9 @@
         {
             <div class="dialog-subheader">@Parameters.SubHeader</div>
         }
-        @if (ComponentView != null)
+        @if (Parameters.Content is ViewFor content)
         {
-            <DynamicComponent Type="@ComponentView.Type" Parameters="@ComponentView.Parameters" />
+            @content.Content
         }
         @if (Parameters.ShowProgressBar)
         {
@@ -44,9 +41,9 @@
                     @(_footerExpanded ? "Less details" : "More details")
                 </MudButton>
             }
-            @if (_footerExpanded && Parameters.Footer is ViewFor viewFor1)
+            @if (_footerExpanded && Parameters.Footer is ViewFor footer)
             {
-                <DynamicComponent Type="@viewFor1.Type" Parameters="@viewFor1.Parameters" />
+                @footer.Content
             }
         }
 
@@ -102,16 +99,11 @@
 
     private void ToggleFooter() => _footerExpanded = !_footerExpanded;
 
-
-    private RequestThemeService Service => ((RequestThemeService)themeService);
-
     [CascadingParameter]
     public required IMudDialogInstance Instance { get; set; }
 
     [Parameter]
     public required TaskDialogParams Parameters { get; set; }
-
-    private ViewFor? ComponentView => Parameters.Content as ViewFor;
 
     [Parameter]
     public required TaskDialogStandardResult[] Results { get; set; }

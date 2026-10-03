@@ -20,6 +20,7 @@ namespace Avae.Razor;
 /// </remarks>
 public class ViewFor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TView> : ViewFor
 {
+    private object? _content;
     /// <summary>
     /// Creates an empty descriptor for <typeparamref name="TView"/> with no parameters.
     /// </summary>
@@ -37,12 +38,7 @@ public class ViewFor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.
     /// </param>
     public ViewFor(object content)
     {
-        // Wrap the supplied content so Blazor can render it inside the target component.
-        var fragment = new RenderFragment(tree => tree.AddContent(0, content));
-        Parameters = new Dictionary<string, object>()
-        {
-            { "ChildContent", fragment }
-        };
+        _content = content;
     }
 
     /// <summary>
@@ -50,4 +46,31 @@ public class ViewFor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.
     /// </summary>
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
     public override Type Type => typeof(TView);
+
+    public override RenderFragment Content => builder =>
+    {
+        builder.OpenComponent(0, Type);
+
+        if (_content is not null)
+        {
+            builder.AddAttribute(
+                1,
+                "ChildContent",
+                (RenderFragment)(childBuilder =>
+                    childBuilder.AddContent(0, _content)));
+        }
+
+        if (Parameters is not null)
+        {
+            foreach (var parameter in Parameters)
+            {
+                builder.AddAttribute(
+                    2,
+                    parameter.Key,
+                    parameter.Value);
+            }
+        }
+
+        builder.CloseComponent();
+    };
 }

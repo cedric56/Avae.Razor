@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Avae.Razor;
 
@@ -32,4 +33,6 @@ public abstract class ViewFor
     public IDictionary<string, object>? Parameters { get; set; }
 
     protected Dictionary<string, object>? additionalParameters = new();
+
+    public abstract RenderFragment Content { get; }
 }
