@@ -1,15 +1,21 @@
-﻿using MudBlazor;
+﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using IDialogService = Avae.Services.IDialogService;
 
 namespace Avae.Razor;
 
 internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialogService
 {
+    private MarkupString SanitizeMessage(string message)
+    {
+        return (MarkupString)System.Text.RegularExpressions.Regex.Replace(System.Web.HttpUtility.HtmlEncode(message), "\r?\n|\r", "<br />");
+    }
+
     public async Task ShowErrorAsync(Exception ex, string title = "Error")
     {
         await MudDialogService.ShowMessageBoxAsync(
             title,
-             ex.Message,
+            SanitizeMessage(ex.Message),
             options: new DialogOptions
             {
                 BackdropClick = true,
@@ -21,7 +27,7 @@ internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialo
     {
         return await MudDialogService.ShowMessageBoxAsync(
             title,
-            message,
+            SanitizeMessage(message),
             cancelText: "Abort",
             options: new DialogOptions
             {
@@ -34,7 +40,7 @@ internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialo
     {
         await MudDialogService.ShowMessageBoxAsync(
             title,
-            message,
+            SanitizeMessage(message),
             options: new DialogOptions
             {
                 BackdropClick = true,
@@ -46,7 +52,7 @@ internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialo
     {
         return await MudDialogService.ShowMessageBoxAsync(
             title,
-             message,
+             SanitizeMessage(message),
             cancelText: "Cancel",
             options: new DialogOptions
             {
@@ -59,7 +65,7 @@ internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialo
     {
         var result = await MudDialogService.ShowMessageBoxAsync(
             title,
-             message,
+             SanitizeMessage(message),
             yesText: "Yes",
             noText: "No",
             cancelText: "Abort",
@@ -80,7 +86,7 @@ internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialo
     {
         return await MudDialogService.ShowMessageBoxAsync(
             title,
-             message,
+             SanitizeMessage(message),
             yesText: "Yes",
             cancelText: "No",
             options: new DialogOptions
@@ -94,7 +100,7 @@ internal class DialogService(MudBlazor.IDialogService MudDialogService) : IDialo
     {
         var result = await MudDialogService.ShowMessageBoxAsync(
             title,
-             message,
+             SanitizeMessage(message),
             yesText: "Yes",
             noText: "No",
             cancelText: "Cancel",
