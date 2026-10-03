@@ -9,13 +9,13 @@ public class ModalService(MudBlazor.IDialogService MudDialogService)
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TViewModel, 
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TResult>(
         ViewFor view, TViewModel viewModel, NavigableContext? context)
-        where TViewModel : ICloseableViewModel<TResult>
+        where TViewModel : class, ICloseableViewModel<TResult>
     {
         var tcs = new TaskCompletionSource<TResult?>();
 
         var dialog = await MudDialogService.ShowAsync(view.Type, viewModel.Title, new MudBlazor.DialogParameters()
         {
-            { "ViewModel", viewModel }
+            { nameof(AvaeComponentBase<TViewModel>.ViewModel), viewModel }
         });
         viewModel.CloseRequested += CloseRequestedHandler;
         void CloseRequestedHandler(object? sender, TResult? e)

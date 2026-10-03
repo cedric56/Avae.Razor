@@ -6,7 +6,6 @@
 @inherits LayoutComponentBase
 @implements IDisposable
 @inject IRequestedThemeService themeService
-@inject IRuntime runtime
 @inject IMvvmManager mvvmmanager
 @inject NavigationManager manager
 @inject IServiceProvider provider
@@ -37,10 +36,6 @@
     <MudMainContent>
         @if(mvvmmanager.CurrentView is ViewFor viewFor)
         {
-            @* <DynamicComponent              
-                Type="@viewFor.Type" 
-                Parameters="@viewFor.Parameters"
-                /> *@
             @viewFor.Content
         }
     </MudMainContent>
@@ -60,8 +55,7 @@
     private async Task OnNavClick(NavigableView item)
     {
         await mvvmmanager.OnNavigableChanged(item);
-        manager.NavigateTo(item.Href, false);// runtime.Current == Runtime.BlazorServer);
-        //await InvokeAsync(StateHasChanged);
+        manager.NavigateTo(item.Href, false);
     }
 
     private RequestThemeService Service => ((RequestThemeService)themeService);
